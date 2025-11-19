@@ -1,0 +1,97 @@
+{
+  "extends": "default",
+  "name": "Developer Environment",
+  "description": "Full-featured development environment with Node.js, Git, and AI code completion",
+  "vm": {
+    "engine": "webcontainer",
+    "memory": "1024M",
+    "cpus": 2,
+    "network": true,
+    "storage": {
+      "type": "indexeddb",
+      "quota": "5GB",
+      "persistent": true
+    }
+  },
+  "ui": {
+    "theme": "dark",
+    "desktop": true,
+    "terminal": true,
+    "fileManager": true,
+    "components": {
+      "menuBar": true,
+      "statusBar": true,
+      "notifications": true,
+      "codeEditor": true
+    },
+    "terminal": {
+      "fontSize": 14,
+      "fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+      "cursorBlink": true,
+      "scrollback": 10000
+    }
+  },
+  "ai": {
+    "enabled": true,
+    "backend": "webgpu",
+    "fallback": "wasm",
+    "models": [
+      {
+        "id": "code-completion",
+        "name": "starcoder-tiny",
+        "size": "150MB",
+        "loadStrategy": "on-demand",
+        "unloadAfter": "5m-idle"
+      },
+      {
+        "id": "documentation-gen",
+        "name": "phi-2",
+        "size": "280MB",
+        "loadStrategy": "manual"
+      }
+    ],
+    "memoryLimit": "4GB",
+    "autoload": false,
+    "features": {
+      "codeCompletion": true,
+      "documentation": true,
+      "refactoring": true
+    }
+  },
+  "preinstalled": [
+    "nodejs",
+    "npm",
+    "git",
+    "python3",
+    "pip",
+    "vim",
+    "curl",
+    "wget"
+  ],
+  "features": {
+    "gitIntegration": true,
+    "packageManager": true,
+    "debugger": true,
+    "linter": true,
+    "fileSystem": true,
+    "clipboard": true,
+    "fullscreen": true,
+    "persistence": true
+  },
+  "extensions": [
+    "git-integration",
+    "code-completion",
+    "syntax-highlighting"
+  ],
+  "performance": {
+    "workerThreads": true,
+    "sharedArrayBuffer": true,
+    "simd": true,
+    "bulkMemory": true
+  },
+  "metrics": {
+    "bootTime": "<5s",
+    "memoryUsage": "~500MB",
+    "diskUsage": "~100MB"
+  }
+}

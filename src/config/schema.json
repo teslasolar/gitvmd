@@ -1,0 +1,408 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/yourusername/gitvmd/schema.json",
+  "title": "GitVMD Configuration Schema",
+  "description": "Configuration schema for GitVMD variants",
+  "type": "object",
+  "properties": {
+    "extends": {
+      "type": "string",
+      "description": "Name of parent configuration to extend"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the variant"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the configuration"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the variant"
+    },
+    "vm": {
+      "type": "object",
+      "description": "Virtual machine configuration",
+      "properties": {
+        "engine": {
+          "enum": ["v86", "webcontainer", "custom"],
+          "description": "VM engine to use"
+        },
+        "memory": {
+          "type": "string",
+          "pattern": "^[0-9]+[MG]$",
+          "description": "Memory allocation (e.g., '512M', '2G')"
+        },
+        "cpus": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Number of virtual CPUs"
+        },
+        "image": {
+          "type": "string",
+          "description": "Disk image filename"
+        },
+        "imageSize": {
+          "type": "string",
+          "description": "Human-readable image size"
+        },
+        "network": {
+          "type": "boolean",
+          "description": "Enable network support"
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": ["indexeddb", "memory"],
+              "description": "Storage backend type"
+            },
+            "quota": {
+              "type": "string",
+              "pattern": "^[0-9]+[MGT]B$",
+              "description": "Storage quota"
+            },
+            "persistent": {
+              "type": "boolean",
+              "description": "Request persistent storage"
+            }
+          }
+        },
+        "boot": {
+          "type": "object",
+          "properties": {
+            "timeout": {
+              "type": "integer",
+              "minimum": 1000,
+              "description": "Boot timeout in milliseconds"
+            },
+            "autostart": {
+              "type": "boolean",
+              "description": "Start VM automatically on load"
+            }
+          }
+        }
+      },
+      "required": ["engine", "memory"]
+    },
+    "ui": {
+      "type": "object",
+      "description": "User interface configuration",
+      "properties": {
+        "theme": {
+          "enum": ["light", "dark", "auto"],
+          "description": "UI theme"
+        },
+        "desktop": {
+          "type": "boolean",
+          "description": "Enable desktop environment"
+        },
+        "terminal": {
+          "type": "boolean",
+          "description": "Enable terminal emulator"
+        },
+        "fileManager": {
+          "type": "boolean",
+          "description": "Enable file manager"
+        },
+        "components": {
+          "type": "object",
+          "properties": {
+            "menuBar": {
+              "type": "boolean"
+            },
+            "statusBar": {
+              "type": "boolean"
+            },
+            "notifications": {
+              "type": "boolean"
+            },
+            "codeEditor": {
+              "type": "boolean"
+            },
+            "aiAssistant": {
+              "type": "boolean"
+            },
+            "voiceControl": {
+              "type": "boolean"
+            }
+          }
+        },
+        "terminal": {
+          "type": "object",
+          "properties": {
+            "fontSize": {
+              "type": "integer",
+              "minimum": 8,
+              "maximum": 32
+            },
+            "fontFamily": {
+              "type": "string"
+            },
+            "cursorBlink": {
+              "type": "boolean"
+            },
+            "scrollback": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "description": "AI integration configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable AI features"
+        },
+        "backend": {
+          "enum": ["webgpu", "webgl", "wasm", "webnn"],
+          "description": "AI compute backend"
+        },
+        "fallback": {
+          "enum": ["webgpu", "webgl", "wasm"],
+          "description": "Fallback backend if primary unavailable"
+        },
+        "models": {
+          "type": "array",
+          "description": "AI models to load",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "string"
+                  },
+                  "loadStrategy": {
+                    "enum": ["eager", "on-demand", "manual"]
+                  },
+                  "unloadAfter": {
+                    "type": "string",
+                    "pattern": "^[0-9]+[smh]-idle$"
+                  },
+                  "backend": {
+                    "enum": ["webgpu", "webgl", "wasm", "onnx"]
+                  },
+                  "quantization": {
+                    "enum": ["q4", "q8", "f16", "f32"]
+                  }
+                },
+                "required": ["id", "name"]
+              }
+            ]
+          }
+        },
+        "memoryLimit": {
+          "type": "string",
+          "pattern": "^[0-9]+[MGT]B$",
+          "description": "Maximum memory for AI models"
+        },
+        "autoload": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Models to load automatically"
+        },
+        "features": {
+          "type": "object",
+          "properties": {
+            "chatbot": {
+              "type": "boolean"
+            },
+            "codeCompletion": {
+              "type": "boolean"
+            },
+            "documentation": {
+              "type": "boolean"
+            },
+            "refactoring": {
+              "type": "boolean"
+            },
+            "voiceControl": {
+              "type": "boolean"
+            },
+            "imageGeneration": {
+              "type": "boolean"
+            },
+            "imageUnderstanding": {
+              "type": "boolean"
+            },
+            "semanticSearch": {
+              "type": "boolean"
+            },
+            "smartAssistant": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "description": "Asset loading configuration",
+      "properties": {
+        "baseURL": {
+          "type": "string",
+          "description": "Base URL for assets"
+        },
+        "lazyLoad": {
+          "type": "boolean",
+          "description": "Enable lazy loading"
+        },
+        "compressionLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "caching": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "strategy": {
+              "enum": ["cache-first", "network-first", "stale-while-revalidate"]
+            },
+            "maxAge": {
+              "type": "integer",
+              "description": "Cache max age in seconds"
+            }
+          }
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "description": "Network configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "proxy": {
+          "type": ["string", "null"]
+        },
+        "cors": {
+          "type": "boolean"
+        },
+        "cdnFallback": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Security configuration",
+      "properties": {
+        "csp": {
+          "type": "boolean"
+        },
+        "sandbox": {
+          "type": "boolean"
+        },
+        "cors": {
+          "type": "boolean"
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "description": "Performance optimization settings",
+      "properties": {
+        "workerThreads": {
+          "type": "boolean"
+        },
+        "sharedArrayBuffer": {
+          "type": "boolean"
+        },
+        "simd": {
+          "type": "boolean"
+        },
+        "bulkMemory": {
+          "type": "boolean"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "preinstalled": {
+      "type": "array",
+      "description": "List of preinstalled software",
+      "items": {
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "array",
+      "description": "Extensions to load",
+      "items": {
+        "type": "string"
+      }
+    },
+    "debug": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "logLevel": {
+          "enum": ["error", "warn", "info", "debug", "trace"]
+        },
+        "performance": {
+          "type": "boolean"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Expected performance metrics",
+      "properties": {
+        "bootTime": {
+          "type": "string"
+        },
+        "memoryUsage": {
+          "type": "string"
+        },
+        "diskUsage": {
+          "type": "string"
+        },
+        "aiModelSize": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": ["name"]
+}

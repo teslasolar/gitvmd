@@ -1,0 +1,52 @@
+{
+  "extends": "default",
+  "name": "Minimal",
+  "description": "Lightweight Alpine Linux environment for basic scripting",
+  "vm": {
+    "engine": "v86",
+    "memory": "256M",
+    "cpus": 1,
+    "image": "alpine-minimal.img",
+    "imageSize": "8MB",
+    "network": false,
+    "boot": {
+      "timeout": 10000,
+      "autostart": true
+    }
+  },
+  "ui": {
+    "theme": "light",
+    "desktop": false,
+    "terminal": true,
+    "fileManager": false,
+    "components": {
+      "menuBar": false,
+      "statusBar": true,
+      "notifications": false
+    }
+  },
+  "ai": {
+    "enabled": false
+  },
+  "preinstalled": [
+    "busybox",
+    "sh",
+    "vi",
+    "wget"
+  ],
+  "features": {
+    "fileSystem": true,
+    "clipboard": true,
+    "fullscreen": false,
+    "persistence": false
+  },
+  "performance": {
+    "workerThreads": true,
+    "sharedArrayBuffer": false
+  },
+  "metrics": {
+    "bootTime": "<3s",
+    "memoryUsage": "~100MB",
+    "diskUsage": "~8MB"
+  }
+}

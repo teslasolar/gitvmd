@@ -1,0 +1,82 @@
+{
+  "name": "Default",
+  "version": "1.0.0",
+  "description": "Base configuration for GitVMD",
+  "vm": {
+    "engine": "v86",
+    "memory": "512M",
+    "cpus": 1,
+    "network": true,
+    "storage": {
+      "type": "indexeddb",
+      "quota": "2GB",
+      "persistent": true
+    },
+    "boot": {
+      "timeout": 30000,
+      "autostart": true
+    }
+  },
+  "ui": {
+    "theme": "auto",
+    "desktop": true,
+    "terminal": true,
+    "fileManager": true,
+    "components": {
+      "menuBar": true,
+      "statusBar": true,
+      "notifications": true
+    },
+    "terminal": {
+      "fontSize": 14,
+      "fontFamily": "monospace",
+      "cursorBlink": true,
+      "scrollback": 1000
+    }
+  },
+  "ai": {
+    "enabled": false,
+    "backend": "webgpu",
+    "fallback": "wasm",
+    "models": [],
+    "memoryLimit": "4GB",
+    "autoload": false
+  },
+  "assets": {
+    "baseURL": "/assets",
+    "lazyLoad": true,
+    "compressionLevel": 9,
+    "caching": {
+      "enabled": true,
+      "strategy": "cache-first",
+      "maxAge": 2592000
+    }
+  },
+  "network": {
+    "enabled": true,
+    "proxy": null,
+    "cors": true
+  },
+  "security": {
+    "csp": true,
+    "sandbox": true,
+    "cors": true
+  },
+  "performance": {
+    "workerThreads": true,
+    "sharedArrayBuffer": false,
+    "simd": true,
+    "bulkMemory": true
+  },
+  "features": {
+    "fileSystem": true,
+    "clipboard": true,
+    "fullscreen": true,
+    "persistence": true
+  },
+  "debug": {
+    "enabled": false,
+    "logLevel": "info",
+    "performance": false
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "extends": "default",
+  "name": "AI Desktop",
+  "description": "AI-powered virtual desktop with LLM, image generation, and voice control",
+  "vm": {
+    "engine": "v86",
+    "memory": "2048M",
+    "cpus": 2,
+    "image": "ubuntu-ai.img",
+    "imageSize": "500MB",
+    "network": true,
+    "storage": {
+      "type": "indexeddb",
+      "quota": "10GB",
+      "persistent": true
+    }
+  },
+  "ui": {
+    "theme": "auto",
+    "desktop": true,
+    "terminal": true,
+    "fileManager": true,
+    "components": {
+      "menuBar": true,
+      "statusBar": true,
+      "notifications": true,
+      "aiAssistant": true,
+      "voiceControl": true
+    }
+  },
+  "ai": {
+    "enabled": true,
+    "backend": "webgpu",
+    "fallback": "wasm",
+    "models": [
+      {
+        "id": "llama-3.2-1b",
+        "name": "Llama 3.2 1B Instruct",
+        "size": "800MB",
+        "loadStrategy": "eager",
+        "backend": "webgpu",
+        "quantization": "q4"
+      },
+      {
+        "id": "whisper-tiny",
+        "name": "Whisper Tiny",
+        "size": "75MB",
+        "loadStrategy": "on-demand",
+        "backend": "wasm"
+      },
+      {
+        "id": "stable-diffusion-turbo",
+        "name": "SD Turbo",
+        "size": "1.2GB",
+        "loadStrategy": "manual",
+        "backend": "webgpu"
+      },
+      {
+        "id": "clip-vit",
+        "name": "CLIP ViT-B/32",
+        "size": "350MB",
+        "loadStrategy": "on-demand",
+        "backend": "onnx"
+      }
+    ],
+    "memoryLimit": "8GB",
+    "autoload": ["llama-3.2-1b"],
+    "features": {
+      "chatbot": true,
+      "voiceControl": true,
+      "imageGeneration": true,
+      "imageUnderstanding": true,
+      "semanticSearch": true,
+      "smartAssistant": true,
+      "codeCompletion": true
+    }
+  },
+  "preinstalled": [
+    "python3",
+    "pip",
+    "jupyter",
+    "git",
+    "curl",
+    "wget",
+    "vim"
+  ],
+  "features": {
+    "fileSystem": true,
+    "clipboard": true,
+    "fullscreen": true,
+    "persistence": true,
+    "voiceInput": true,
+    "imageUpload": true
+  },
+  "extensions": [
+    "ai-chatbot",
+    "voice-control",
+    "image-generator",
+    "semantic-search"
+  ],
+  "performance": {
+    "workerThreads": true,
+    "sharedArrayBuffer": true,
+    "simd": true,
+    "bulkMemory": true
+  },
+  "network": {
+    "enabled": true,
+    "proxy": null,
+    "cors": true,
+    "cdnFallback": [
+      "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm",
+      "https://huggingface.co"
+    ]
+  },
+  "metrics": {
+    "bootTime": "<10s",
+    "memoryUsage": "~1.5GB",
+    "diskUsage": "~500MB",
+    "aiModelSize": "~3GB"
+  }
+}

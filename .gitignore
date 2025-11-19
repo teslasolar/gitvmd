@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.vite/
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Large assets (use Git LFS or external storage)
+src/assets/images/*.img
+src/assets/images/*.iso
+src/assets/images/*.chunk*
+src/assets/models/*.onnx
+src/assets/models/*.bin
+
+# Build artifacts
+*.chunk.js.map
+*.wasm.map
+
+# Service Worker
+sw.js.map

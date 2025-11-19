@@ -1,0 +1,75 @@
+{
+  "name": "gitvmd",
+  "version": "1.0.0",
+  "description": "Git Virtual Machine Desktop - Browser-based virtual desktop on GitHub Pages",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:unit": "vitest run --reporter=verbose",
+    "test:integration": "vitest run --config vitest.integration.config.js",
+    "test:e2e": "playwright test",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "validate:configs": "node scripts/validate-configs.js",
+    "build:images": "node scripts/chunk-images.js",
+    "build:variants": "node scripts/generate-configs.js",
+    "optimize": "npm run optimize:images && npm run compress:wasm",
+    "optimize:images": "node scripts/optimize-images.js",
+    "compress:wasm": "node scripts/optimize-wasm.js",
+    "generate:metadata": "node scripts/generate-metadata.js",
+    "generate:manifests": "node scripts/generate-manifests.js"
+  },
+  "keywords": [
+    "virtual-machine",
+    "virtual-desktop",
+    "webassembly",
+    "github-pages",
+    "v86",
+    "browser-vm",
+    "ai-integration",
+    "offline-first"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/gitvmd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/gitvmd/issues"
+  },
+  "homepage": "https://yourusername.github.io/gitvmd",
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "idb": "^8.0.0",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0",
+    "xterm-addon-web-links": "^0.9.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-pwa": "^0.17.0",
+    "vitest": "^1.0.0",
+    "workbox-window": "^7.0.0"
+  },
+  "optionalDependencies": {
+    "onnxruntime-web": "^1.16.0",
+    "@webcontainer/api": "^1.1.0",
+    "@mlc-ai/web-llm": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
