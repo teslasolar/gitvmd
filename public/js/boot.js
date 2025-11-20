@@ -242,11 +242,15 @@ class BootLoader {
 
         switch(appName) {
             case 'terminal':
-                contentEl.innerHTML = '<div class="terminal" id="terminal"></div>';
-                await this.initTerminal();
+                const { Terminal } = await import('./apps/terminal.js');
+                new Terminal(contentEl);
                 break;
             case 'files':
-                contentEl.innerHTML = '<div class="file-browser">File Browser</div>';
+                const { FileBrowser } = await import('./apps/file-browser.js');
+                // Share filesystem with terminal if available
+                const fs = window.globalFileSystem || this.initFileSystem();
+                window.globalFileSystem = fs;
+                new FileBrowser(contentEl, fs);
                 break;
             case 'tagbrowser':
                 contentEl.innerHTML = '<div class="tag-browser">Tag Browser</div>';
@@ -256,29 +260,105 @@ class BootLoader {
         document.getElementById('workspace').appendChild(windowEl);
     }
 
+    initFileSystem() {
+        return {
+            '/': {
+                type: 'dir',
+                contents: {
+                    'home': {
+                        type: 'dir',
+                        contents: {
+                            'guest': {
+                                type: 'dir',
+                                contents: {
+                                    'README.md': {
+                                        type: 'file',
+                                        content: 'Welcome to GitVMD!\n\nThis is a browser-based virtual desktop running on GitHub Pages.\n\nFeatures:\n- Terminal emulator\n- File browser\n- SCADA/HMI system\n- AI integration\n\nType "help" in the terminal for available commands.'
+                                    },
+                                    'projects': { type: 'dir', contents: {} }
+                                }
+                            }
+                        }
+                    },
+                    'usr': {
+                        type: 'dir',
+                        contents: {
+                            'bin': { type: 'dir', contents: {} },
+                            'lib': { type: 'dir', contents: {} }
+                        }
+                    },
+                    'etc': { type: 'dir', contents: {} },
+                    'tmp': { type: 'dir', contents: {} }
+                }
+            }
+        };
+    }
+
     createWindow(title) {
         const win = document.createElement('div');
         win.className = 'os-window';
-        win.style.left = '100px';
-        win.style.top = '100px';
-        win.style.width = '600px';
-        win.style.height = '400px';
+
+        // Random positioning with some offset
+        const offset = document.querySelectorAll('.os-window').length * 30;
+        win.style.left = (100 + offset) + 'px';
+        win.style.top = (80 + offset) + 'px';
+        win.style.width = '700px';
+        win.style.height = '500px';
 
         win.innerHTML = `
             <div class="window-titlebar">
                 <div class="window-title">${title}</div>
                 <div class="window-controls">
-                    <div class="window-control minimize"></div>
-                    <div class="window-control maximize"></div>
-                    <div class="window-control close" onclick="this.closest('.os-window').remove()"></div>
+                    <div class="window-control minimize" onclick="window.minimizeWindow(this)">−</div>
+                    <div class="window-control maximize" onclick="window.maximizeWindow(this)">□</div>
+                    <div class="window-control close" onclick="this.closest('.os-window').remove()">×</div>
                 </div>
             </div>
             <div class="window-content"></div>
         `;
 
         this.makeWindowDraggable(win);
+        this.makeWindowResizable(win);
+
+        // Bring to front on click
+        win.addEventListener('mousedown', () => {
+            document.querySelectorAll('.os-window').forEach(w => w.style.zIndex = '1000');
+            win.style.zIndex = '1001';
+        });
 
         return win;
+    }
+
+    makeWindowResizable(win) {
+        // Add resize handle
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'window-resize-handle';
+        win.appendChild(resizeHandle);
+
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(win.style.width);
+            startHeight = parseInt(win.style.height);
+            e.stopPropagation();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isResizing) {
+                const width = startWidth + (e.clientX - startX);
+                const height = startHeight + (e.clientY - startY);
+                win.style.width = Math.max(400, width) + 'px';
+                win.style.height = Math.max(300, height) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+        });
     }
 
     makeWindowDraggable(win) {
@@ -307,49 +387,6 @@ class BootLoader {
         });
     }
 
-    async initTerminal() {
-        const termEl = document.getElementById('terminal');
-        if (!termEl) return;
-
-        termEl.innerHTML = `
-            <div class="terminal-line">
-                <span class="terminal-prompt">guest@gitvmd:~$</span>
-                <input type="text" class="terminal-input" placeholder="Type 'help' for commands">
-            </div>
-        `;
-
-        const input = termEl.querySelector('.terminal-input');
-        input.focus();
-
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const cmd = input.value;
-                this.executeCommand(cmd, termEl);
-                input.value = '';
-            }
-        });
-    }
-
-    executeCommand(cmd, termEl) {
-        const output = document.createElement('div');
-        output.className = 'terminal-line';
-
-        switch(cmd.trim()) {
-            case 'help':
-                output.textContent = 'Available commands: help, clear, ls, pwd, uname, exit';
-                break;
-            case 'clear':
-                termEl.innerHTML = '';
-                return;
-            case 'uname':
-                output.textContent = 'GitVMD v1.0.0';
-                break;
-            default:
-                output.textContent = `Command not found: ${cmd}`;
-        }
-
-        termEl.insertBefore(output, termEl.lastChild);
-    }
 
     getIconEmoji(iconName) {
         const icons = {
@@ -400,6 +437,34 @@ class BootLoader {
 window.bootOS = async function(osType) {
     const loader = new BootLoader();
     await loader.bootOS(osType);
+};
+
+// Global window management functions
+window.minimizeWindow = function(btn) {
+    const win = btn.closest('.os-window');
+    win.style.display = 'none';
+    // TODO: Add to taskbar
+};
+
+window.maximizeWindow = function(btn) {
+    const win = btn.closest('.os-window');
+    if (win.dataset.maximized === 'true') {
+        win.style.left = win.dataset.oldLeft;
+        win.style.top = win.dataset.oldTop;
+        win.style.width = win.dataset.oldWidth;
+        win.style.height = win.dataset.oldHeight;
+        win.dataset.maximized = 'false';
+    } else {
+        win.dataset.oldLeft = win.style.left;
+        win.dataset.oldTop = win.style.top;
+        win.dataset.oldWidth = win.style.width;
+        win.dataset.oldHeight = win.style.height;
+        win.style.left = '0';
+        win.style.top = '0';
+        win.style.width = '100%';
+        win.style.height = 'calc(100% - 60px)';
+        win.dataset.maximized = 'true';
+    }
 };
 
 // Global app instance

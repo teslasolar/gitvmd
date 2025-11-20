@@ -2,41 +2,110 @@
   "meta": {
     "name": "Developer Environment",
     "type": "os.variant",
-    "base": "webcontainer",
+    "base": "web",
     "size": "100MB",
-    "bootTime": "5s"
+    "bootTime": "5s",
+    "description": "Full-stack development environment with Node.js, Python, Git, and AI-powered code completion"
   },
   "config": {
-    "vm": {
-      "engine": "webcontainer",
-      "memory": "1024M"
+    "desktop": {
+      "theme": "dark",
+      "wallpaper": "dev-pattern.svg",
+      "accentColor": "#00d4ff"
     },
     "apps": [
       {
         "name": "Terminal",
         "icon": "terminal",
-        "exec": "os.terminal"
-      },
-      {
-        "name": "Code Editor",
-        "icon": "📝",
-        "exec": "os.editor"
+        "exec": "os.terminal",
+        "description": "Full-featured terminal with Git, Node.js, Python, and package managers"
       },
       {
         "name": "File Browser",
         "icon": "folder",
-        "exec": "os.files"
+        "exec": "os.files",
+        "description": "Visual file manager with drag-and-drop support"
       },
       {
-        "name": "Git",
+        "name": "Code Editor",
+        "icon": "📝",
+        "exec": "os.editor",
+        "description": "Monaco-based code editor with syntax highlighting and IntelliSense"
+      },
+      {
+        "name": "Git Client",
         "icon": "💾",
-        "exec": "os.git"
+        "exec": "os.git",
+        "description": "Visual Git interface for commits, branches, and history"
       },
       {
-        "name": "NPM",
+        "name": "Package Manager",
         "icon": "📦",
-        "exec": "os.npm"
+        "exec": "os.packages",
+        "description": "Manage npm, pip, and other package dependencies"
+      },
+      {
+        "name": "AI Assistant",
+        "icon": "🤖",
+        "exec": "os.ai",
+        "description": "Code completion, refactoring, and chat assistance"
+      },
+      {
+        "name": "Browser DevTools",
+        "icon": "🔧",
+        "exec": "os.devtools",
+        "description": "Inspect elements, console, network monitoring"
+      },
+      {
+        "name": "REST Client",
+        "icon": "🌐",
+        "exec": "os.rest",
+        "description": "Test API endpoints and view responses"
       }
+    ],
+    "services": {
+      "git": {
+        "enabled": true,
+        "version": "2.43",
+        "user": "guest",
+        "email": "guest@gitvmd.local"
+      },
+      "nodejs": {
+        "version": "20.x",
+        "npm": "10.x",
+        "global_packages": ["typescript", "eslint", "prettier", "nodemon"]
+      },
+      "python": {
+        "version": "3.11",
+        "pip": "23.x",
+        "packages": ["requests", "flask", "numpy"]
+      },
+      "ai": {
+        "enabled": true,
+        "models": ["code-completion", "chat", "refactor"],
+        "provider": "local"
+      },
+      "runtime": {
+        "nodejs": true,
+        "python": true,
+        "wasm": true
+      }
+    },
+    "environment": {
+      "PATH": "/usr/local/bin:/usr/bin:/bin",
+      "NODE_ENV": "development",
+      "EDITOR": "monaco"
+    }
+  },
+  "boot": {
+    "autostart": true,
+    "splash": true,
+    "timeout": 5000,
+    "loadingSteps": [
+      "Initializing Node.js runtime...",
+      "Loading development tools...",
+      "Starting AI services...",
+      "Ready to code!"
     ]
   }
 }

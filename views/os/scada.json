@@ -1,45 +1,135 @@
 {
   "meta": {
-    "name": "SCADA OS",
+    "name": "SCADA/HMI System",
     "type": "os.variant",
     "base": "web",
-    "description": "ISA-95 HMI/SCADA Environment"
+    "size": "512MB",
+    "bootTime": "instant",
+    "description": "ISA-95 compliant industrial automation and control system with real-time monitoring"
   },
   "config": {
-    "vm": {
-      "engine": "web-only",
-      "memory": "512M"
+    "desktop": {
+      "theme": "industrial",
+      "wallpaper": "factory-bg.svg",
+      "accentColor": "#ff9800",
+      "layout": "dashboard"
     },
     "apps": [
       {
-        "name": "Plant Overview",
+        "name": "Process Overview",
         "icon": "factory",
-        "exec": "view:overview"
+        "exec": "view:scada/overview",
+        "description": "Real-time process monitoring dashboard"
       },
       {
-        "name": "Process Detail",
+        "name": "Process Details",
         "icon": "chart",
-        "exec": "view:process-detail"
+        "exec": "view:scada/process-detail",
+        "description": "Detailed process control and analytics"
       },
       {
-        "name": "Alarms",
+        "name": "Alarms & Events",
         "icon": "bell",
-        "exec": "view:alarms"
+        "exec": "view:scada/alarms",
+        "description": "Active alarms, warnings, and event history"
       },
       {
         "name": "Trends",
         "icon": "trending",
-        "exec": "view:trends"
+        "exec": "view:scada/trends",
+        "description": "Historical data trends and analysis"
       },
       {
         "name": "Tag Browser",
         "icon": "database",
-        "exec": "os.tagbrowser"
+        "exec": "os.tagbrowser",
+        "description": "Browse and configure OPC tags"
+      },
+      {
+        "name": "Recipe Manager",
+        "icon": "📋",
+        "exec": "os.recipes",
+        "description": "Batch recipes and production procedures (ISA-88)"
+      },
+      {
+        "name": "Reports",
+        "icon": "📊",
+        "exec": "os.reports",
+        "description": "Production reports and KPIs"
+      },
+      {
+        "name": "User Management",
+        "icon": "settings",
+        "exec": "os.users",
+        "description": "User roles and permissions (ISA-95 security)"
       }
     ],
-    "tagProvider": {
-      "type": "websocket",
-      "url": "ws://localhost:8088/tags"
+    "isa": {
+      "standard": "ISA-95",
+      "levels": {
+        "level4": "MES/ERP Integration",
+        "level3": "Manufacturing Operations Management",
+        "level2": "Supervisory Control",
+        "level1": "Basic Control",
+        "level0": "Physical Process"
+      },
+      "batch": {
+        "standard": "ISA-88",
+        "enabled": true,
+        "recipeTypes": ["master", "control", "site"]
+      },
+      "symbols": {
+        "standard": "ISA-5.1",
+        "library": "/components/symbols/"
+      }
+    },
+    "dataSource": {
+      "type": "opc-ua",
+      "url": "opc.tcp://localhost:4840",
+      "auth": "anonymous",
+      "tags": {
+        "updateRate": 1000,
+        "history": true,
+        "buffer": 10000
+      },
+      "simulation": {
+        "enabled": true,
+        "scenarios": ["production", "maintenance", "alarm"]
+      }
+    },
+    "alarms": {
+      "priorities": ["critical", "high", "medium", "low"],
+      "notification": {
+        "sound": true,
+        "visual": true,
+        "email": false
+      },
+      "history": {
+        "retention": "30d",
+        "maxRecords": 50000
+      }
+    },
+    "trends": {
+      "realTime": {
+        "buffer": 3600,
+        "resolution": 1000
+      },
+      "historical": {
+        "retention": "90d",
+        "aggregation": ["min", "max", "avg"]
+      }
     }
+  },
+  "boot": {
+    "autostart": true,
+    "splash": true,
+    "timeout": 2000,
+    "loadingSteps": [
+      "Connecting to OPC server...",
+      "Loading tag definitions...",
+      "Initializing alarms...",
+      "Starting data acquisition..."
+    ],
+    "autoLaunch": ["view:scada/overview"]
   }
 }

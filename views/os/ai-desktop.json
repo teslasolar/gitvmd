@@ -2,50 +2,171 @@
   "meta": {
     "name": "AI Desktop",
     "type": "os.variant",
-    "base": "ubuntu",
+    "base": "web",
     "size": "500MB",
-    "bootTime": "10s"
+    "bootTime": "10s",
+    "description": "AI-powered desktop with LLM chat, image generation, voice synthesis, and machine learning tools"
   },
   "config": {
-    "vm": {
-      "engine": "v86",
-      "memory": "2048M",
-      "image": "ubuntu-ai.img"
+    "desktop": {
+      "theme": "ai-gradient",
+      "wallpaper": "neural-network.svg",
+      "accentColor": "#9c27b0",
+      "animations": "enhanced"
     },
     "apps": [
       {
-        "name": "AI Chatbot",
+        "name": "AI Chat",
         "icon": "🤖",
-        "exec": "ai.chatbot"
+        "exec": "os.chat",
+        "description": "Conversational AI assistant powered by WebLLM"
       },
       {
         "name": "Image Generator",
         "icon": "🎨",
-        "exec": "ai.imagegen"
+        "exec": "os.imagegen",
+        "description": "Text-to-image generation with Stable Diffusion"
       },
       {
-        "name": "Voice Control",
+        "name": "Voice Synthesis",
+        "icon": "🎙️",
+        "exec": "os.tts",
+        "description": "Text-to-speech with multiple voices"
+      },
+      {
+        "name": "Speech Recognition",
         "icon": "🎤",
-        "exec": "ai.voice"
+        "exec": "os.stt",
+        "description": "Speech-to-text transcription"
+      },
+      {
+        "name": "ML Playground",
+        "icon": "🧪",
+        "exec": "os.ml",
+        "description": "Train and test machine learning models"
+      },
+      {
+        "name": "Vision AI",
+        "icon": "👁️",
+        "exec": "os.vision",
+        "description": "Image classification, object detection, OCR"
       },
       {
         "name": "Code Assistant",
-        "icon": "👨‍💻",
-        "exec": "ai.codeassist"
+        "icon": "💡",
+        "exec": "os.codeai",
+        "description": "AI-powered code generation and debugging"
       },
       {
         "name": "Terminal",
         "icon": "terminal",
-        "exec": "os.terminal"
+        "exec": "os.terminal",
+        "description": "Terminal with AI command suggestions"
+      },
+      {
+        "name": "File Browser",
+        "icon": "folder",
+        "exec": "os.files",
+        "description": "File manager with AI-powered search"
       }
     ],
     "ai": {
-      "models": [
-        "llama-3.2-1b",
-        "whisper-tiny",
-        "stable-diffusion-turbo"
-      ],
-      "autoload": ["llama-3.2-1b"]
+      "llm": {
+        "enabled": true,
+        "engine": "webllm",
+        "models": [
+          {
+            "name": "Phi-3-mini",
+            "size": "2.3GB",
+            "type": "chat",
+            "quantization": "q4"
+          },
+          {
+            "name": "TinyLlama-1.1B",
+            "size": "550MB",
+            "type": "completion",
+            "quantization": "q4"
+          }
+        ],
+        "maxTokens": 2048,
+        "temperature": 0.7
+      },
+      "imageGen": {
+        "enabled": true,
+        "engine": "stable-diffusion",
+        "model": "sd-turbo",
+        "size": "450MB",
+        "resolution": "512x512",
+        "steps": 4
+      },
+      "tts": {
+        "enabled": true,
+        "engine": "web-speech-api",
+        "voices": ["en-US", "en-GB", "es-ES", "fr-FR"],
+        "rate": 1.0,
+        "pitch": 1.0
+      },
+      "stt": {
+        "enabled": true,
+        "engine": "web-speech-api",
+        "language": "en-US",
+        "continuous": true
+      },
+      "vision": {
+        "enabled": true,
+        "models": {
+          "classification": "mobilenet",
+          "detection": "coco-ssd",
+          "ocr": "tesseract.js"
+        }
+      },
+      "embedding": {
+        "enabled": true,
+        "model": "all-MiniLM-L6-v2",
+        "dimensions": 384
+      }
+    },
+    "gpu": {
+      "webgpu": {
+        "enabled": true,
+        "fallback": "webgl"
+      },
+      "acceleration": true,
+      "memoryLimit": "2GB"
+    },
+    "services": {
+      "modelCache": {
+        "enabled": true,
+        "storage": "indexeddb",
+        "maxSize": "5GB"
+      },
+      "inference": {
+        "workers": 2,
+        "batchSize": 1,
+        "timeout": 30000
+      }
     }
+  },
+  "boot": {
+    "autostart": true,
+    "splash": true,
+    "timeout": 10000,
+    "loadingSteps": [
+      "Initializing WebGPU...",
+      "Loading AI models...",
+      "Preparing inference engine...",
+      "Optimizing performance...",
+      "AI Desktop ready!"
+    ],
+    "preload": {
+      "models": ["Phi-3-mini"],
+      "priority": "chat"
+    }
+  },
+  "requirements": {
+    "webgpu": "recommended",
+    "memory": "4GB+",
+    "browser": "Chrome 113+, Edge 113+",
+    "storage": "2GB available"
   }
 }
