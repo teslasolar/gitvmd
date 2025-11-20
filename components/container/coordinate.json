@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "container",
+    "name": "coordinate",
+    "version": "1.0.0",
+    "description": "Absolute positioning for P&ID diagrams"
+  },
+  "props": {
+    "width": {
+      "type": "number",
+      "default": 1920
+    },
+    "height": {
+      "type": "number",
+      "default": 1080
+    },
+    "backgroundColor": {
+      "type": "color",
+      "default": "#FFFFFF"
+    },
+    "grid": {
+      "enabled": false,
+      "size": 10,
+      "color": "#EEEEEE"
+    }
+  },
+  "style": {
+    "position": "relative",
+    "overflow": "hidden"
+  }
+}

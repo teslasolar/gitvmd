@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "symbols",
+    "name": "pump",
+    "version": "1.0.0",
+    "isa": "ISA-5.1"
+  },
+  "props": {
+    "pumpType": {
+      "type": "string",
+      "enum": ["centrifugal", "positivedisplacement", "diaphragm"],
+      "default": "centrifugal"
+    },
+    "running": {
+      "type": "boolean",
+      "default": false
+    },
+    "speed": {
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%"
+    },
+    "fault": {
+      "type": "boolean",
+      "default": false
+    },
+    "tagPath": {
+      "type": "string",
+      "binding": true
+    }
+  },
+  "animation": {
+    "running": "rotate",
+    "rpm": "calc(speed * 30)"
+  }
+}

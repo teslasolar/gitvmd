@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "input",
+    "name": "slider",
+    "version": "1.0.0"
+  },
+  "props": {
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    },
+    "value": {
+      "type": "number",
+      "binding": "bidirectional"
+    },
+    "min": {
+      "type": "number",
+      "default": 0
+    },
+    "max": {
+      "type": "number",
+      "default": 100
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "tagPath": {
+      "type": "string"
+    }
+  }
+}

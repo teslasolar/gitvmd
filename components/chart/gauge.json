@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "chart",
+    "name": "gauge",
+    "version": "1.0.0"
+  },
+  "props": {
+    "gaugeType": {
+      "type": "string",
+      "enum": ["radial", "linear", "tank"],
+      "default": "radial"
+    },
+    "value": {
+      "type": "number",
+      "binding": true
+    },
+    "min": {
+      "type": "number",
+      "default": 0
+    },
+    "max": {
+      "type": "number",
+      "default": 100
+    },
+    "unit": {
+      "type": "string"
+    },
+    "ranges": {
+      "type": "array",
+      "items": {
+        "min": 0,
+        "max": 30,
+        "color": "#00FF00",
+        "label": "Normal"
+      }
+    }
+  }
+}

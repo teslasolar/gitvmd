@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "symbols",
+    "name": "valve",
+    "version": "1.0.0",
+    "isa": "ISA-5.1"
+  },
+  "props": {
+    "valveType": {
+      "type": "string",
+      "enum": ["gate", "globe", "ball", "butterfly", "check"],
+      "default": "gate"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["open", "closed", "moving", "fault"],
+      "default": "closed"
+    },
+    "position": {
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%"
+    },
+    "tagPath": {
+      "type": "string",
+      "binding": true
+    },
+    "color": {
+      "open": "#00FF00",
+      "closed": "#FF0000",
+      "moving": "#FFFF00",
+      "fault": "#FF00FF"
+    }
+  },
+  "events": {
+    "onClick": "action",
+    "onStateChange": "script"
+  }
+}

@@ -1,0 +1,50 @@
+:root {
+    --primary-color: #0066CC;
+    --secondary-color: #333333;
+    --background: #F5F5F5;
+    --text-color: #000000;
+    --border-color: #CCCCCC;
+    --alarm-high: #FF0000;
+    --alarm-low: #FFAA00;
+    --normal: #00FF00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text-color);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#header {
+    background: var(--secondary-color);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#viewport {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+}
+
+#footer {
+    background: var(--secondary-color);
+    color: white;
+    padding: 5px 20px;
+    font-size: 12px;
+}

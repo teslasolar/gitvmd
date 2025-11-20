@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "input",
+    "name": "button",
+    "version": "1.0.0"
+  },
+  "props": {
+    "text": {
+      "type": "string",
+      "default": "Button"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["primary", "secondary", "danger", "success"],
+      "default": "primary"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "tagPath": {
+      "type": "string",
+      "binding": true
+    }
+  },
+  "events": {
+    "onClick": {
+      "type": "action",
+      "actions": ["write", "script", "navigate"]
+    }
+  },
+  "style": {
+    "width": "100px",
+    "height": "40px"
+  }
+}

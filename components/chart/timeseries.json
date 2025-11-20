@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "chart",
+    "name": "timeseries",
+    "version": "1.0.0"
+  },
+  "props": {
+    "data": {
+      "type": "dataset",
+      "binding": true
+    },
+    "xAxis": {
+      "type": "timestamp",
+      "format": "HH:mm:ss"
+    },
+    "yAxis": {
+      "min": "auto",
+      "max": "auto",
+      "label": ""
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "name": "",
+        "tagPath": "",
+        "color": "#0066CC",
+        "lineWidth": 2
+      }
+    },
+    "timeRange": {
+      "type": "duration",
+      "default": "1h"
+    },
+    "realtime": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

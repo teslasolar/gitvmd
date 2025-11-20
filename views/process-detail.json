@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "name": "Process Detail",
+    "type": "perspective.view",
+    "version": "1.0.0",
+    "isa95Level": 2,
+    "processCell": "PC-001"
+  },
+  "params": {
+    "unitId": {
+      "type": "string",
+      "default": "UNIT-001"
+    }
+  },
+  "root": {
+    "type": "container.coordinate",
+    "props": {
+      "width": 1920,
+      "height": 1080
+    },
+    "children": [
+      {
+        "type": "symbols.tank",
+        "props": {
+          "x": 100,
+          "y": 200,
+          "level": "{tank01.level}",
+          "capacity": 5000,
+          "tagPath": "site/area1/tank01"
+        }
+      },
+      {
+        "type": "symbols.pump",
+        "props": {
+          "x": 300,
+          "y": 400,
+          "running": "{pump01.run}",
+          "tagPath": "site/area1/pump01"
+        }
+      }
+    ]
+  }
+}

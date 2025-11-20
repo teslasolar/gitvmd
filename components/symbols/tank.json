@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "symbols",
+    "name": "tank",
+    "version": "1.0.0",
+    "isa": "ISA-5.1"
+  },
+  "props": {
+    "level": {
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%"
+    },
+    "capacity": {
+      "type": "number",
+      "unit": "gallons"
+    },
+    "currentVolume": {
+      "type": "number",
+      "calculated": true,
+      "formula": "capacity * (level / 100)"
+    },
+    "alarmHigh": {
+      "type": "number",
+      "default": 90
+    },
+    "alarmLow": {
+      "type": "number",
+      "default": 10
+    },
+    "tagPath": {
+      "type": "string",
+      "binding": true
+    }
+  },
+  "visual": {
+    "fillColor": "#0066CC",
+    "alarmColor": "#FF0000"
+  }
+}

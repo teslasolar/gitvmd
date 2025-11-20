@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "display",
+    "name": "table",
+    "version": "1.0.0"
+  },
+  "props": {
+    "data": {
+      "type": "dataset",
+      "binding": true
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "field": "",
+        "header": "",
+        "width": 100,
+        "align": "left",
+        "format": ""
+      }
+    },
+    "selection": {
+      "mode": "single",
+      "enabled": true
+    },
+    "pagination": {
+      "enabled": false,
+      "pageSize": 50
+    }
+  }
+}

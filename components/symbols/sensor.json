@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "symbols",
+    "name": "sensor",
+    "version": "1.0.0",
+    "isa": "ISA-5.1"
+  },
+  "props": {
+    "sensorType": {
+      "type": "string",
+      "enum": ["temperature", "pressure", "flow", "level", "ph", "conductivity"],
+      "default": "temperature"
+    },
+    "value": {
+      "type": "number",
+      "binding": true
+    },
+    "unit": {
+      "type": "string",
+      "default": "°F"
+    },
+    "range": {
+      "min": 0,
+      "max": 100
+    },
+    "alarms": {
+      "highHigh": null,
+      "high": null,
+      "low": null,
+      "lowLow": null
+    },
+    "tagPath": {
+      "type": "string",
+      "binding": true
+    }
+  }
+}

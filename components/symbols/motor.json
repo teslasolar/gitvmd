@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "symbols",
+    "name": "motor",
+    "version": "1.0.0",
+    "isa": "ISA-5.1"
+  },
+  "props": {
+    "motorType": {
+      "type": "string",
+      "enum": ["threephase", "singlephase", "dc", "servo"],
+      "default": "threephase"
+    },
+    "running": {
+      "type": "boolean",
+      "default": false
+    },
+    "speed": {
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "current": {
+      "type": "number",
+      "unit": "A"
+    },
+    "fault": {
+      "type": "boolean",
+      "default": false
+    },
+    "tagPath": {
+      "type": "string"
+    }
+  }
+}

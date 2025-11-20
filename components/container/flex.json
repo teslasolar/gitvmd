@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "container",
+    "name": "flex",
+    "version": "1.0.0"
+  },
+  "props": {
+    "direction": {
+      "type": "string",
+      "enum": ["row", "column"],
+      "default": "row"
+    },
+    "justify": {
+      "type": "string",
+      "enum": ["start", "center", "end", "space-between"],
+      "default": "start"
+    },
+    "align": {
+      "type": "string",
+      "enum": ["start", "center", "end", "stretch"],
+      "default": "start"
+    },
+    "gap": {
+      "type": "string",
+      "default": "0px"
+    },
+    "wrap": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "style": {
+    "display": "flex"
+  }
+}

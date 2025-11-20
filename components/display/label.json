@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "type": "perspective.component",
+    "category": "display",
+    "name": "label",
+    "version": "1.0.0"
+  },
+  "props": {
+    "text": {
+      "type": "string",
+      "binding": true,
+      "default": "Label"
+    },
+    "fontSize": {
+      "type": "number",
+      "default": 14,
+      "unit": "px"
+    },
+    "fontWeight": {
+      "type": "string",
+      "enum": ["normal", "bold"],
+      "default": "normal"
+    },
+    "color": {
+      "type": "color",
+      "default": "#000000"
+    },
+    "align": {
+      "type": "string",
+      "enum": ["left", "center", "right"]
+    }
+  }
+}
