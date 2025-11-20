@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "name": "AI Desktop",
+    "type": "os.variant",
+    "base": "ubuntu",
+    "size": "500MB",
+    "bootTime": "10s"
+  },
+  "config": {
+    "vm": {
+      "engine": "v86",
+      "memory": "2048M",
+      "image": "ubuntu-ai.img"
+    },
+    "apps": [
+      {
+        "name": "AI Chatbot",
+        "icon": "🤖",
+        "exec": "ai.chatbot"
+      },
+      {
+        "name": "Image Generator",
+        "icon": "🎨",
+        "exec": "ai.imagegen"
+      },
+      {
+        "name": "Voice Control",
+        "icon": "🎤",
+        "exec": "ai.voice"
+      },
+      {
+        "name": "Code Assistant",
+        "icon": "👨‍💻",
+        "exec": "ai.codeassist"
+      },
+      {
+        "name": "Terminal",
+        "icon": "terminal",
+        "exec": "os.terminal"
+      }
+    ],
+    "ai": {
+      "models": [
+        "llama-3.2-1b",
+        "whisper-tiny",
+        "stable-diffusion-turbo"
+      ],
+      "autoload": ["llama-3.2-1b"]
+    }
+  }
+}

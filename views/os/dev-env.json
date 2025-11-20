@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "name": "Developer Environment",
+    "type": "os.variant",
+    "base": "webcontainer",
+    "size": "100MB",
+    "bootTime": "5s"
+  },
+  "config": {
+    "vm": {
+      "engine": "webcontainer",
+      "memory": "1024M"
+    },
+    "apps": [
+      {
+        "name": "Terminal",
+        "icon": "terminal",
+        "exec": "os.terminal"
+      },
+      {
+        "name": "Code Editor",
+        "icon": "📝",
+        "exec": "os.editor"
+      },
+      {
+        "name": "File Browser",
+        "icon": "folder",
+        "exec": "os.files"
+      },
+      {
+        "name": "Git",
+        "icon": "💾",
+        "exec": "os.git"
+      },
+      {
+        "name": "NPM",
+        "icon": "📦",
+        "exec": "os.npm"
+      }
+    ]
+  }
+}

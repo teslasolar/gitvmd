@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "name": "GitVMD Desktop",
+    "type": "os.view",
+    "version": "1.0.0",
+    "description": "Base OS desktop environment"
+  },
+  "params": {
+    "variant": {
+      "type": "string",
+      "default": "minimal",
+      "enum": ["minimal", "dev-env", "ai-desktop", "scada"]
+    }
+  },
+  "root": {
+    "type": "container.flex",
+    "props": {
+      "direction": "column",
+      "style": {
+        "width": "100vw",
+        "height": "100vh",
+        "background": "#1E1E1E"
+      }
+    },
+    "children": [
+      {
+        "type": "os.taskbar",
+        "props": {
+          "height": "40px",
+          "position": "top"
+        }
+      },
+      {
+        "type": "os.workspace",
+        "props": {
+          "flex": 1
+        }
+      },
+      {
+        "type": "os.statusbar",
+        "props": {
+          "height": "24px",
+          "position": "bottom"
+        }
+      }
+    ]
+  }
+}

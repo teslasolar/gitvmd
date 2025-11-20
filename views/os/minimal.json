@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "name": "Minimal OS",
+    "type": "os.variant",
+    "base": "alpine",
+    "size": "8MB",
+    "bootTime": "3s"
+  },
+  "config": {
+    "vm": {
+      "engine": "v86",
+      "memory": "256M",
+      "image": "alpine-minimal.img",
+      "bios": "seabios.bin",
+      "vgaBios": "vgabios.bin"
+    },
+    "apps": [
+      {
+        "name": "Terminal",
+        "icon": "terminal",
+        "exec": "os.terminal"
+      },
+      {
+        "name": "File Browser",
+        "icon": "folder",
+        "exec": "os.files"
+      }
+    ]
+  },
+  "boot": {
+    "autostart": true,
+    "splash": true,
+    "timeout": 10000
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "name": "SCADA OS",
+    "type": "os.variant",
+    "base": "web",
+    "description": "ISA-95 HMI/SCADA Environment"
+  },
+  "config": {
+    "vm": {
+      "engine": "web-only",
+      "memory": "512M"
+    },
+    "apps": [
+      {
+        "name": "Plant Overview",
+        "icon": "factory",
+        "exec": "view:overview"
+      },
+      {
+        "name": "Process Detail",
+        "icon": "chart",
+        "exec": "view:process-detail"
+      },
+      {
+        "name": "Alarms",
+        "icon": "bell",
+        "exec": "view:alarms"
+      },
+      {
+        "name": "Trends",
+        "icon": "trending",
+        "exec": "view:trends"
+      },
+      {
+        "name": "Tag Browser",
+        "icon": "database",
+        "exec": "os.tagbrowser"
+      }
+    ],
+    "tagProvider": {
+      "type": "websocket",
+      "url": "ws://localhost:8088/tags"
+    }
+  }
+}

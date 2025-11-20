@@ -3,23 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GitVMD SCADA/HMI - ISA-95 Compliant Web-Based Supervisory Control">
-    <title>GitVMD SCADA/HMI</title>
+    <meta name="description" content="GitVMD - Virtual Desktop & SCADA/HMI Platform">
+    <title>GitVMD</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/os.css">
 </head>
 <body>
-    <div id="app">
-        <header id="header">
-            <h1>GitVMD SCADA/HMI</h1>
-            <div id="nav"></div>
-        </header>
-        <main id="viewport">
-            <div id="view-container"></div>
-        </main>
-        <footer id="footer">
-            <div id="status-bar"></div>
-        </footer>
+    <div id="boot-screen" class="boot-screen">
+        <div class="boot-logo">
+            <h1>GitVMD</h1>
+            <p class="tagline">Virtual Desktop & SCADA/HMI Platform</p>
+        </div>
+
+        <div class="os-selector">
+            <h2>Select Environment</h2>
+
+            <div class="os-grid">
+                <!-- Minimal OS -->
+                <div class="os-card" data-os="minimal">
+                    <div class="os-icon">💻</div>
+                    <h3>Minimal OS</h3>
+                    <p class="os-desc">Alpine Linux Terminal</p>
+                    <div class="os-specs">
+                        <span>8MB</span>
+                        <span>256MB RAM</span>
+                        <span>&lt;3s boot</span>
+                    </div>
+                    <button onclick="bootOS('minimal')">Launch</button>
+                </div>
+
+                <!-- Developer Environment -->
+                <div class="os-card" data-os="dev-env">
+                    <div class="os-icon">👨‍💻</div>
+                    <h3>Developer</h3>
+                    <p class="os-desc">Node.js, Git, Python, AI</p>
+                    <div class="os-specs">
+                        <span>100MB</span>
+                        <span>1GB RAM</span>
+                        <span>&lt;5s boot</span>
+                    </div>
+                    <button onclick="bootOS('dev-env')">Launch</button>
+                </div>
+
+                <!-- SCADA/HMI -->
+                <div class="os-card featured" data-os="scada">
+                    <div class="os-icon">🏭</div>
+                    <h3>SCADA/HMI</h3>
+                    <p class="os-desc">ISA-95 Industrial Automation</p>
+                    <div class="os-specs">
+                        <span>Web-based</span>
+                        <span>512MB RAM</span>
+                        <span>Instant</span>
+                    </div>
+                    <button onclick="bootOS('scada')" class="btn-primary">Launch</button>
+                </div>
+
+                <!-- AI Desktop -->
+                <div class="os-card" data-os="ai-desktop">
+                    <div class="os-icon">🤖</div>
+                    <h3>AI Desktop</h3>
+                    <p class="os-desc">LLM, Image Gen, Voice</p>
+                    <div class="os-specs">
+                        <span>500MB+</span>
+                        <span>2GB RAM</span>
+                        <span>&lt;10s boot</span>
+                    </div>
+                    <button onclick="bootOS('ai-desktop')">Launch</button>
+                </div>
+            </div>
+
+            <div class="quick-links">
+                <a href="#" onclick="showDocs(); return false;">📚 Documentation</a>
+                <a href="#" onclick="showComponents(); return false;">🧩 Components</a>
+                <a href="https://github.com/yourusername/gitvmd">💾 GitHub</a>
+            </div>
+        </div>
     </div>
+
+    <div id="app" class="hidden">
+        <div id="os-container"></div>
+    </div>
+
+    <script type="module" src="js/boot.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
