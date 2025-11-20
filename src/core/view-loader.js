@@ -5,7 +5,9 @@
 
 export class ViewLoader {
     constructor(baseURL = '/views') {
-        this.baseURL = baseURL;
+        // Detect GitHub Pages base path
+        const ghBasePath = window.location.pathname.includes('/gitvmd/') ? '/gitvmd' : '';
+        this.baseURL = ghBasePath + baseURL;
         this.cache = new Map();
     }
 

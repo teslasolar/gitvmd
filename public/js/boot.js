@@ -48,21 +48,30 @@ class BootLoader {
     }
 
     async loadOSConfig(osType) {
+        // Detect base path from current location
+        const basePath = window.location.pathname.includes('/gitvmd/') ? '/gitvmd' : '';
+
         // Try multiple paths for GitHub Pages compatibility
         const paths = [
-            `/views/os/${osType}.json`,
+            `${basePath}/views/os/${osType}.json`,
             `../views/os/${osType}.json`,
-            `../../views/os/${osType}.json`
+            `../../views/os/${osType}.json`,
+            `/views/os/${osType}.json`
         ];
+
+        console.log(`Loading OS config for: ${osType}`);
+        console.log(`Detected base path: ${basePath}`);
 
         for (const path of paths) {
             try {
+                console.log(`Trying path: ${path}`);
                 const response = await fetch(path);
                 if (response.ok) {
+                    console.log(`✓ Loaded from: ${path}`);
                     return await response.json();
                 }
             } catch (e) {
-                console.log(`Failed to load from ${path}`);
+                console.log(`✗ Failed: ${path}`);
             }
         }
 

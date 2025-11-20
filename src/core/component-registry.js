@@ -6,7 +6,9 @@
 export class ComponentRegistry {
     constructor() {
         this.components = new Map();
-        this.baseURL = '/components';
+        // Detect GitHub Pages base path
+        const ghBasePath = window.location.pathname.includes('/gitvmd/') ? '/gitvmd' : '';
+        this.baseURL = ghBasePath + '/components';
     }
 
     async loadComponent(type) {
