@@ -48,11 +48,25 @@ class BootLoader {
     }
 
     async loadOSConfig(osType) {
-        const response = await fetch(`/views/os/${osType}.json`);
-        if (!response.ok) {
-            throw new Error(`OS config not found: ${osType}`);
+        // Try multiple paths for GitHub Pages compatibility
+        const paths = [
+            `/views/os/${osType}.json`,
+            `../views/os/${osType}.json`,
+            `../../views/os/${osType}.json`
+        ];
+
+        for (const path of paths) {
+            try {
+                const response = await fetch(path);
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.log(`Failed to load from ${path}`);
+            }
         }
-        return await response.json();
+
+        throw new Error(`OS config not found: ${osType}`);
     }
 
     async bootWebOS(config) {

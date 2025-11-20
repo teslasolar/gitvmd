@@ -1,0 +1,27 @@
+# GitVMD - GitHub Pages Configuration
+name: GitVMD
+description: Virtual Desktop & SCADA/HMI Platform
+url: https://teslasolar.github.io
+baseurl: /gitvmd
+
+# Include all files
+include:
+  - .nojekyll
+  - public
+  - views
+  - components
+  - js
+  - styles
+
+# Exclude build files
+exclude:
+  - node_modules
+  - .git
+  - .github
+  - src
+  - scripts
+  - tests
+
+# Disable Jekyll processing
+markdown: kramdown
+plugins: []

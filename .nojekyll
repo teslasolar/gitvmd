@@ -1,0 +1,2 @@
+# GitVMD - Disable Jekyll processing for GitHub Pages
+# This allows files starting with _ to be served
