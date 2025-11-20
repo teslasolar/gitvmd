@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "name": "Process Trends",
+    "type": "perspective.view",
+    "version": "1.0.0"
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "style": {
+        "backgroundColor": "#1a1a1a",
+        "padding": "20px"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "props": {
+          "text": "Historical Trends",
+          "style": {
+            "fontSize": "24px",
+            "fontWeight": "bold",
+            "color": "#fff",
+            "marginBottom": "20px"
+          }
+        }
+      },
+      {
+        "type": "ia.chart.timeseries",
+        "props": {
+          "series": [
+            {
+              "name": "Tank T101 Level",
+              "tagPath": "Plant/Tanks/T101/Level",
+              "color": "#4a9eff"
+            },
+            {
+              "name": "Tank T102 Level",
+              "tagPath": "Plant/Tanks/T102/Level",
+              "color": "#00d4ff"
+            }
+          ],
+          "timeRange": "1h",
+          "style": {
+            "height": "300px"
+          }
+        }
+      },
+      {
+        "type": "ia.chart.timeseries",
+        "props": {
+          "series": [
+            {
+              "name": "Reactor Temperature",
+              "tagPath": "Plant/Reactor/R301/Temperature",
+              "color": "#ff9800"
+            },
+            {
+              "name": "Setpoint",
+              "tagPath": "Plant/Reactor/R301/TempSetpoint",
+              "color": "#4caf50"
+            }
+          ],
+          "timeRange": "1h",
+          "style": {
+            "height": "300px",
+            "marginTop": "20px"
+          }
+        }
+      }
+    ]
+  }
+}

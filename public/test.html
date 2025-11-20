@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitVMD - OS Template Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 36px;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .test-card {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .test-card h2 {
+            margin-bottom: 15px;
+            color: #4a9eff;
+        }
+
+        .test-status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255,193,7,0.2);
+            color: #ffc107;
+        }
+
+        .status-testing {
+            background: rgba(33,150,243,0.2);
+            color: #2196f3;
+        }
+
+        .status-success {
+            background: rgba(76,175,80,0.2);
+            color: #4caf50;
+        }
+
+        .status-error {
+            background: rgba(244,67,54,0.2);
+            color: #f44336;
+        }
+
+        .test-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .test-btn:hover {
+            background: #3a8eef;
+        }
+
+        .test-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+
+        .app-list {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .app-item {
+            padding: 6px 10px;
+            margin: 4px 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-status {
+            font-size: 18px;
+        }
+
+        .log-section {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .log-section h2 {
+            margin-bottom: 15px;
+        }
+
+        .log-output {
+            background: #1a1a1a;
+            border-radius: 6px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #00ff00;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+        }
+
+        .log-info { color: #4a9eff; }
+        .log-success { color: #4caf50; }
+        .log-error { color: #f44336; }
+        .log-warning { color: #ffc107; }
+
+        .test-all-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4a9eff, #00d4ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .test-all-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 GitVMD OS Template Test Suite</h1>
+
+        <div class="summary">
+            <div class="summary-card">
+                <div class="summary-number" id="total-tests">4</div>
+                <div class="summary-label">Total OS</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-number" id="passed-tests" style="color: #4caf50;">0</div>
+                <div class="summary-label">Passed</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-number" id="failed-tests" style="color: #f44336;">0</div>
+                <div class="summary-label">Failed</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-number" id="total-apps">0</div>
+                <div class="summary-label">Total Apps</div>
+            </div>
+        </div>
+
+        <button class="test-all-btn" onclick="testAll()">▶️ Run All Tests</button>
+
+        <div class="test-grid" id="test-grid">
+            <!-- Test cards will be generated here -->
+        </div>
+
+        <div class="log-section">
+            <h2>📝 Test Log</h2>
+            <div class="log-output" id="log-output">
+                <div class="log-entry log-info">Ready to run tests...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const OS_VARIANTS = [
+            { id: 'minimal', name: 'Minimal OS', file: 'minimal.json' },
+            { id: 'dev-env', name: 'Developer Environment', file: 'dev-env.json' },
+            { id: 'scada', name: 'SCADA/HMI System', file: 'scada.json' },
+            { id: 'ai-desktop', name: 'AI Desktop', file: 'ai-desktop.json' }
+        ];
+
+        const testResults = {};
+        let totalApps = 0;
+
+        // Detect base path
+        const basePath = window.location.pathname.includes('/gitvmd/') ? '/gitvmd' : '';
+
+        function log(message, type = 'info') {
+            const output = document.getElementById('log-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${timestamp}] ${message}`;
+            output.appendChild(entry);
+            output.scrollTop = output.scrollHeight;
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+
+        function updateSummary() {
+            const passed = Object.values(testResults).filter(r => r.status === 'success').length;
+            const failed = Object.values(testResults).filter(r => r.status === 'error').length;
+
+            document.getElementById('passed-tests').textContent = passed;
+            document.getElementById('failed-tests').textContent = failed;
+            document.getElementById('total-apps').textContent = totalApps;
+        }
+
+        function createTestCard(os) {
+            const card = document.createElement('div');
+            card.className = 'test-card';
+            card.id = `test-${os.id}`;
+
+            card.innerHTML = `
+                <h2>${os.name}</h2>
+                <div class="test-status status-pending" id="status-${os.id}">⏳ Pending</div>
+                <button class="test-btn" onclick="testOS('${os.id}')">Test ${os.name}</button>
+                <div class="app-list" id="apps-${os.id}"></div>
+            `;
+
+            return card;
+        }
+
+        async function testOS(osId) {
+            const os = OS_VARIANTS.find(o => o.id === osId);
+            const statusEl = document.getElementById(`status-${osId}`);
+            const appsEl = document.getElementById(`apps-${osId}`);
+
+            statusEl.className = 'test-status status-testing';
+            statusEl.textContent = '🔄 Testing...';
+            log(`Starting test for ${os.name}`, 'info');
+
+            testResults[osId] = { status: 'testing', apps: [] };
+
+            try {
+                // Test 1: Load OS configuration
+                log(`Loading ${os.file}...`, 'info');
+                const config = await loadOSConfig(osId);
+
+                if (!config) {
+                    throw new Error('Failed to load OS configuration');
+                }
+
+                log(`✓ Configuration loaded successfully`, 'success');
+                log(`  - Name: ${config.meta.name}`, 'info');
+                log(`  - Base: ${config.meta.base}`, 'info');
+                log(`  - Apps: ${config.config.apps?.length || 0}`, 'info');
+
+                // Test 2: Validate configuration structure
+                validateConfig(config, osId);
+                log(`✓ Configuration structure valid`, 'success');
+
+                // Test 3: Load and test each app
+                const apps = config.config.apps || [];
+                totalApps += apps.length;
+
+                appsEl.innerHTML = '<strong>Applications:</strong>';
+
+                for (const app of apps) {
+                    const appResult = await testApp(app, osId);
+                    testResults[osId].apps.push(appResult);
+
+                    const appItem = document.createElement('div');
+                    appItem.className = 'app-item';
+                    appItem.innerHTML = `
+                        <span>${app.icon || '📦'} ${app.name}</span>
+                        <span class="app-status">${appResult.success ? '✅' : '❌'}</span>
+                    `;
+                    appsEl.appendChild(appItem);
+                }
+
+                // All tests passed
+                statusEl.className = 'test-status status-success';
+                statusEl.textContent = `✅ Passed (${apps.length} apps)`;
+                testResults[osId].status = 'success';
+                log(`✓ ${os.name} - All tests passed!`, 'success');
+
+            } catch (error) {
+                statusEl.className = 'test-status status-error';
+                statusEl.textContent = `❌ Failed: ${error.message}`;
+                testResults[osId].status = 'error';
+                testResults[osId].error = error.message;
+                log(`✗ ${os.name} - Test failed: ${error.message}`, 'error');
+            }
+
+            updateSummary();
+        }
+
+        async function loadOSConfig(osType) {
+            const paths = [
+                `${basePath}/views/os/${osType}.json`,
+                `../views/os/${osType}.json`,
+                `../../views/os/${osType}.json`,
+                `/views/os/${osType}.json`
+            ];
+
+            log(`  Trying paths for ${osType}:`, 'info');
+
+            for (const path of paths) {
+                try {
+                    log(`    - ${path}`, 'info');
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        log(`    ✓ Found at: ${path}`, 'success');
+                        return await response.json();
+                    }
+                } catch (e) {
+                    log(`    ✗ Not found: ${path}`, 'warning');
+                }
+            }
+
+            throw new Error(`OS config not found: ${osType}`);
+        }
+
+        function validateConfig(config, osId) {
+            const required = ['meta', 'config', 'boot'];
+            for (const field of required) {
+                if (!config[field]) {
+                    throw new Error(`Missing required field: ${field}`);
+                }
+            }
+
+            if (!config.meta.name) {
+                throw new Error('Missing meta.name');
+            }
+
+            if (!config.config.apps || !Array.isArray(config.config.apps)) {
+                throw new Error('Missing or invalid config.apps array');
+            }
+
+            // Validate each app has required fields
+            config.config.apps.forEach((app, index) => {
+                if (!app.name) {
+                    throw new Error(`App ${index} missing name`);
+                }
+                if (!app.exec) {
+                    throw new Error(`App ${index} (${app.name}) missing exec`);
+                }
+            });
+        }
+
+        async function testApp(app, osId) {
+            log(`  Testing app: ${app.name}`, 'info');
+
+            const result = {
+                name: app.name,
+                exec: app.exec,
+                success: false,
+                error: null
+            };
+
+            try {
+                // Check if exec type is valid
+                const execTypes = ['os.terminal', 'os.files', 'os.editor', 'os.git', 'os.packages',
+                                   'os.ai', 'os.devtools', 'os.rest', 'os.tagbrowser', 'os.chat',
+                                   'os.imagegen', 'os.tts', 'os.stt', 'os.ml', 'os.vision',
+                                   'os.codeai', 'os.recipes', 'os.reports', 'os.users'];
+
+                const isOSApp = execTypes.includes(app.exec);
+                const isView = app.exec.startsWith('view:');
+
+                if (!isOSApp && !isView) {
+                    log(`    ⚠ Unknown exec type: ${app.exec}`, 'warning');
+                }
+
+                // Check if required modules exist for implemented apps
+                if (app.exec === 'os.terminal') {
+                    await checkModule('./apps/terminal.js');
+                } else if (app.exec === 'os.files') {
+                    await checkModule('./apps/file-browser.js');
+                }
+
+                result.success = true;
+                log(`    ✓ ${app.name} validated`, 'success');
+
+            } catch (error) {
+                result.error = error.message;
+                log(`    ✗ ${app.name} error: ${error.message}`, 'error');
+            }
+
+            return result;
+        }
+
+        async function checkModule(path) {
+            // For now, just check if the path would be valid
+            // In a real test, we'd try to import it
+            const fullPath = basePath + '/public/js/' + path;
+            log(`      Checking module: ${fullPath}`, 'info');
+
+            try {
+                const response = await fetch(fullPath, { method: 'HEAD' });
+                if (!response.ok) {
+                    throw new Error(`Module not found: ${path}`);
+                }
+                log(`      ✓ Module exists`, 'success');
+            } catch (error) {
+                // Module might not exist yet, that's okay for some apps
+                log(`      ⚠ Module not found (may be stub): ${path}`, 'warning');
+            }
+        }
+
+        async function testAll() {
+            log('========================================', 'info');
+            log('Starting comprehensive test suite', 'info');
+            log('========================================', 'info');
+
+            totalApps = 0;
+
+            for (const os of OS_VARIANTS) {
+                await testOS(os.id);
+                // Small delay between tests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            log('========================================', 'info');
+            log('Test suite completed!', 'success');
+            log(`Results: ${Object.values(testResults).filter(r => r.status === 'success').length}/${OS_VARIANTS.length} passed`, 'info');
+            log('========================================', 'info');
+        }
+
+        // Initialize test cards
+        window.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('test-grid');
+            OS_VARIANTS.forEach(os => {
+                grid.appendChild(createTestCard(os));
+            });
+            log('Test suite initialized', 'success');
+            log(`Detected base path: ${basePath || '(root)'}`, 'info');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "name": "Alarms & Events",
+    "type": "perspective.view",
+    "version": "1.0.0"
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "style": {
+        "backgroundColor": "#1a1a1a",
+        "padding": "20px"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "props": {
+          "text": "Active Alarms",
+          "style": {
+            "fontSize": "24px",
+            "fontWeight": "bold",
+            "color": "#fff",
+            "marginBottom": "20px"
+          }
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "props": {
+          "data": [
+            {
+              "priority": "Critical",
+              "message": "Tank Level High - T101",
+              "timestamp": "2024-01-15 14:23:45",
+              "status": "Active"
+            },
+            {
+              "priority": "High",
+              "message": "Pump Vibration Detected - P201",
+              "timestamp": "2024-01-15 14:18:12",
+              "status": "Active"
+            },
+            {
+              "priority": "Medium",
+              "message": "Temperature Deviation - R301",
+              "timestamp": "2024-01-15 13:45:33",
+              "status": "Acknowledged"
+            }
+          ],
+          "columns": [
+            {"field": "priority", "headerName": "Priority"},
+            {"field": "message", "headerName": "Alarm Message"},
+            {"field": "timestamp", "headerName": "Time"},
+            {"field": "status", "headerName": "Status"}
+          ],
+          "style": {
+            "height": "400px"
+          }
+        }
+      }
+    ]
+  }
+}

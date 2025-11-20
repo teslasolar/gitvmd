@@ -237,27 +237,139 @@ class BootLoader {
     }
 
     async openOSApp(appName) {
-        const windowEl = this.createWindow(appName);
+        const windowEl = this.createWindow(this.formatAppName(appName));
         const contentEl = windowEl.querySelector('.window-content');
+
+        // Initialize shared filesystem if not exists
+        if (!window.globalFileSystem) {
+            window.globalFileSystem = this.initFileSystem();
+        }
 
         switch(appName) {
             case 'terminal':
                 const { Terminal } = await import('./apps/terminal.js');
                 new Terminal(contentEl);
                 break;
+
             case 'files':
                 const { FileBrowser } = await import('./apps/file-browser.js');
-                // Share filesystem with terminal if available
-                const fs = window.globalFileSystem || this.initFileSystem();
-                window.globalFileSystem = fs;
-                new FileBrowser(contentEl, fs);
+                new FileBrowser(contentEl, window.globalFileSystem);
                 break;
+
+            // Developer tools
+            case 'editor':
+                contentEl.innerHTML = this.createPlaceholder('Code Editor', '📝',
+                    'Monaco-based code editor with syntax highlighting');
+                break;
+
+            case 'git':
+                contentEl.innerHTML = this.createPlaceholder('Git Client', '💾',
+                    'Visual Git interface for commits, branches, and history');
+                break;
+
+            case 'packages':
+                contentEl.innerHTML = this.createPlaceholder('Package Manager', '📦',
+                    'Manage npm, pip, and other package dependencies');
+                break;
+
+            case 'ai':
+                contentEl.innerHTML = this.createPlaceholder('AI Assistant', '🤖',
+                    'Code completion, refactoring, and chat assistance');
+                break;
+
+            case 'devtools':
+                contentEl.innerHTML = this.createPlaceholder('Browser DevTools', '🔧',
+                    'Inspect elements, console, network monitoring');
+                break;
+
+            case 'rest':
+                contentEl.innerHTML = this.createPlaceholder('REST Client', '🌐',
+                    'Test API endpoints and view responses');
+                break;
+
+            // SCADA apps
             case 'tagbrowser':
-                contentEl.innerHTML = '<div class="tag-browser">Tag Browser</div>';
+                contentEl.innerHTML = this.createPlaceholder('Tag Browser', '🗄️',
+                    'Browse and configure OPC tags');
                 break;
+
+            case 'recipes':
+                contentEl.innerHTML = this.createPlaceholder('Recipe Manager', '📋',
+                    'Batch recipes and production procedures (ISA-88)');
+                break;
+
+            case 'reports':
+                contentEl.innerHTML = this.createPlaceholder('Reports', '📊',
+                    'Production reports and KPIs');
+                break;
+
+            case 'users':
+                contentEl.innerHTML = this.createPlaceholder('User Management', '⚙️',
+                    'User roles and permissions (ISA-95 security)');
+                break;
+
+            // AI Desktop apps
+            case 'chat':
+                contentEl.innerHTML = this.createPlaceholder('AI Chat', '🤖',
+                    'Conversational AI assistant powered by WebLLM');
+                break;
+
+            case 'imagegen':
+                contentEl.innerHTML = this.createPlaceholder('Image Generator', '🎨',
+                    'Text-to-image generation with Stable Diffusion');
+                break;
+
+            case 'tts':
+                contentEl.innerHTML = this.createPlaceholder('Voice Synthesis', '🎙️',
+                    'Text-to-speech with multiple voices');
+                break;
+
+            case 'stt':
+                contentEl.innerHTML = this.createPlaceholder('Speech Recognition', '🎤',
+                    'Speech-to-text transcription');
+                break;
+
+            case 'ml':
+                contentEl.innerHTML = this.createPlaceholder('ML Playground', '🧪',
+                    'Train and test machine learning models');
+                break;
+
+            case 'vision':
+                contentEl.innerHTML = this.createPlaceholder('Vision AI', '👁️',
+                    'Image classification, object detection, OCR');
+                break;
+
+            case 'codeai':
+                contentEl.innerHTML = this.createPlaceholder('Code Assistant', '💡',
+                    'AI-powered code generation and debugging');
+                break;
+
+            default:
+                contentEl.innerHTML = this.createPlaceholder(appName, '📱',
+                    'Application coming soon');
         }
 
         document.getElementById('workspace').appendChild(windowEl);
+    }
+
+    createPlaceholder(title, icon, description) {
+        return `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 40px; text-align: center;">
+                <div style="font-size: 64px; margin-bottom: 20px;">${icon}</div>
+                <h2 style="margin-bottom: 10px; color: #333;">${title}</h2>
+                <p style="color: #666; line-height: 1.6; max-width: 400px;">${description}</p>
+                <div style="margin-top: 20px; padding: 12px 24px; background: #f0f0f0; border-radius: 6px; font-size: 14px; color: #888;">
+                    This application is available in the full version
+                </div>
+            </div>
+        `;
+    }
+
+    formatAppName(appName) {
+        return appName
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     initFileSystem() {
